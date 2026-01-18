@@ -121,26 +121,7 @@
 - **Space Complexity:** $O(n)$
 - **Note:** More efficient than binary search and conceptually clean
 
-### Approach 2: Ternary Search
-
-- Divide the range into three parts instead of two
-- Compare imbalance (absolute difference of totals) at two points
-- Narrow the range toward smaller imbalance
-- **Time Complexity:** $O(n \log(R))$
-- **Space Complexity:** $O(n)$
-- **Note:** Works because the imbalance function has a single minimum
-
-### Approach 3: Event-Based Sweep Line
-
-- Create events for all segment start and end points
-- Sort events and sweep from left to right
-- Maintain running totals of left and right lengths
-- Interpolate if the balance lies between two events
-- **Time Complexity:** $O(n \log n)$
-- **Space Complexity:** $O(n)$
-- **Note:** Very precise but more complex to implement
-
-### Approach 4: Analytical Solution (Mathematical)
+### Approach 2: Analytical Solution (Mathematical)
 
 - Compute the balance point directly using a weighted centroid formula:
 -  
