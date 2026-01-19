@@ -1,147 +1,181 @@
-# Solution Tutorial
+# Problem Title
 
-## Key Insights
+Equal Length Division
 
-1. Imagine placing a vertical line randomly on the number line. Naturally, the total segment length on one side of the line will be greater than on the other.
-2. To fix this imbalance, we gradually shift the line left or right, depending on which side currently has less total length.
-3. Deciding *which direction to move* the line follows a clear rule, which strongly hints at a **binary search** strategy.
-4. The final balancing position turns out to be the **weighted median** of all segment midpoints, where each segment’s weight is simply its length.
-5. Binary search is valid here because the function `(left_total - right_total)` changes monotonically as the cutting position moves.
-6. We only need to care about positions defined by segment endpoints, since the balance point will always lie at or between these critical locations.
+## Description
+
+<!-- WHAT & WHY: Explain the problem goal and context. Don't specify the JSON schema here. -->
+<!-- Example: "Given an array of integers, return the sum of all elements." -->
+
+You are given a number line and several horizontal **line segments** on this number line. Each segment is defined by its **start** and **end** point on the number line.
+Your goal is to find **minimum** position x = c at which the vertical line perfectly balances all of the segments. A vertical line is considered balanced when:
+
+- The sum of the lengths of all segment parts left of the line is equal to the sum of the lengths of all segment parts right of the line.
+
+- The equality must hold up to 5 decimal places of precision.
+
+#### Important Note:
+- Whenever a vertical line cuts through a segment, it divides the segment into two parts on the left side and on the right side. Both of these contribute to the total length on the left side or on the right side, respectively. 
+- Overlapping segments are counted separately. In the case of many segments covering the same region, every segment's length in the covered region adds up independently to the total length. 
+- Two values are taken to be equal if the absolute difference is less than 10^-5, i.e., they agree up to five decimal places.
 
 
-## Algorithm
+## Input Format
 
-### Binary Search Approach
+<!-- HOW: Technical schema only. Field names, types, JSON structure. No need to re-explain the problem goal. -->
 
-1. **Find the search range:**
-   - Set `left` to the minimum start point among all segments that is `0` in this problem.
-   - Set `right` to the maximum end point among all segments that is `1e9` in this problem.
+Input is a JSON object with the following fields:
 
-2. **Define the balance function:**
-   - For a given position `x`, compute:
-     - `left_total`: total length of all segment parts to the left of `x`
-     - `right_total`: total length of all segment parts to the right of `x`
-   - For each segment `[a, b]`:
-     - If `x <= a`: the entire segment lies on the right → add `(b - a)` to `right_total`
-     - If `x >= b`: the entire segment lies on the left → add `(b - a)` to `left_total`
-     - If `a < x < b`: the segment is split by `x`
-       - Left contribution: `(x - a)`
-       - Right contribution: `(b - x)`
+- `t` (integer): Number of test cases
+- `test_cases` (array of objects): Array containing test case data
+- `n` (integer): Number of horizontal segments in this test case
+- `segments` (array of arrays): Each element is a 2-element array [x1, x2] where x1 is the start coordinate and x2 is the end coordinate of a segment
 
-3. **Binary search iteration:**
+Example input:
+```json
+{
+  "t": 2,
+  "test_cases": [
+    {
+      "n": 3,
+      "segments": [
+        [1, 5],
+        [2, 8],
+        [3, 7]
+      ]
+    },
+    {
+      "n": 2,
+      "segments": [
+        [0, 10],
+        [0, 10]
+      ]
+    }
+  ]
+}
 ```
-   while (right - left) > 1e-5:
-       mid = (left + right) / 2
-       calculate left_total and right_total at mid
-       
-       if left_total < right_total:
-           # Need more length on left, move right
-           left = mid
-       else:
-           # Need more length on right (or balanced), move left
-           right = mid
+
+## Output Format
+
+<!-- HOW: Technical schema only. Describe what type/structure is returned, not why. -->
+
+Output is a JSON value (type: array of numbers):
+
+An array of floating-point numbers, one for each test case, representing the x-coordinate of the balance point rounded to exactly 5 decimal places.
+
+Example output:
+```json
+[4.50000, 5.00000]
 ```
 
-4. **Return the result:**
-   - The final `mid` value, rounded to **exactly 5 decimal places**, is the balance point.
+## Constraints
 
-### Step-by-step execution
+- $1 \leq t \leq 100$ (number of test cases)
+- $1 \leq n \leq 10^4$ (number of segments per test case)
+- $0 \leq x_1 < x_2 \leq 10^9$ (segment coordinates)
+- Sum of $n$ across all test cases $\leq 10^5$
+- Output must be rounded to exactly 5 decimal places
+- Absolute difference between left and right totals must be $\leq 10^{-5}$
+- Time limit: 1000ms
+- Memory limit: 256MB
 
-1. Read all segments and determine the minimum and maximum coordinates
-2. Initialize the binary search bounds
-3. In each iteration, compute total lengths on both sides of the mid-point
-4. Shift the search range toward the heavier side
-5. Repeat until the interval size is less than `1e-5`
-6. Format the answer to exactly 5 decimal places
+## Examples
 
-## Complexity Analysis
+### Example 1
 
-- **Time Complexity:**  
-  $O(n \log(R))$ — Each binary search iteration processes all `n` segments, and the number of iterations is about $\log(R/\epsilon)$.  
-  With coordinates up to $10^9$ and precision $10^{-7}$, this results in roughly **50 iterations**, i.e., $O(n \times 50)$.
+**Input:**
+```json
+{
+  "t": 2,
+  "test_cases": [
+    {
+      "n": 3,
+      "segments": [
+        [1, 5],
+        [2, 8],
+        [3, 7]
+      ]
+    },
+    {
+      "n": 2,
+      "segments": [
+        [0, 10],
+        [5, 15]
+      ]
+    }
+  ]
+}
+```
 
-- **Space Complexity:**  
-  $O(n)$ — Only the input segments are stored; no extra data structures are required.
+**Output:**
+```json
+[4.50000, 7.50000]
+```
 
-## Edge Cases
+**Explanation:** 
 
-1. **Single segment:**  
-   The balance point is simply the midpoint.  
-   Example: `[0, 10]` → balance at `5.0`
+**Test Case 1:** Balance point is at x = 4.50000
+- Segments: [1, 5], [2, 8], [3, 7]
+- Left side total:
+  - Segment [1, 5]: length from 1 to 4.5 = 3.5
+  - Segment [2, 8]: length from 2 to 4.5 = 2.5
+  - Segment [3, 7]: length from 3 to 4.5 = 1.5
+  - Total = 7.5
+- Right side total:
+  - Segment [1, 5]: length from 4.5 to 5 = 0.5
+  - Segment [2, 8]: length from 4.5 to 8 = 3.5
+  - Segment [3, 7]: length from 4.5 to 7 = 2.5
+  - Total = 7.5
+- Left = Right ✓
 
-2. **Identical overlapping segments:**  
-   All segments share the same range, so the balance point is their common midpoint.  
-   Example: two `[0, 10]` segments → balance at `5.0`
+**Test Case 2:** Balance point is at x = 7.50000
+- Segments: [0, 10], [5, 15]
+- Left side total:
+  - Segment [0, 10]: length from 0 to 7.5 = 7.5
+  - Segment [5, 15]: length from 5 to 7.5 = 2.5
+  - Total = 10.0
+- Right side total:
+  - Segment [0, 10]: length from 7.5 to 10 = 2.5
+  - Segment [5, 15]: length from 7.5 to 15 = 7.5
+  - Total = 10.0
+- Left = Right ✓
 
-3. **Non-overlapping segments:**  
-   Segments may be far apart with gaps in between. The algorithm naturally handles these cases.
+### Example 2
 
-4. **Same start or end point:**  
-   Example: `[0, 5], [0, 10], [0, 15]` — the balance point is still correctly determined based on total lengths.
+**Input:**
+```json
+{
+  "t": 1,
+  "test_cases": [
+    {
+      "n": 2,
+      "segments": [
+        [0, 10],
+        [0, 10]
+      ]
+    }
+  ]
+}
+```
 
-5. **Very large coordinates:**  
-   Use `double` / `float64` to maintain precision up to $10^{-5}$ even when values approach $10^9$.
+**Output:**
+```json
+[5.00000]
+```
 
-6. **Very small segments:**  
-   Even tiny segments matter. Make sure floating-point precision does not eliminate their contribution.
+**Explanation:**
 
-## Common Pitfalls
+**Test Case 1:** Balance point is at x = 5.00000
+- Segments: [0, 10], [0, 10] (two identical overlapping segments)
+- Left side total:
+  - Segment 1: length from 0 to 5 = 5.0
+  - Segment 2: length from 0 to 5 = 5.0
+  - Total = 10.0 (both segments counted separately!)
+- Right side total:
+  - Segment 1: length from 5 to 10 = 5.0
+  - Segment 2: length from 5 to 10 = 5.0
+  - Total = 10.0
+- Left = Right ✓
 
-- **Low binary search precision:**  
-  Stopping early (e.g., at `1e-5`) can produce inaccurate results. we can  use at lesser value for accurate answer like `1e-6` or `1e-7`.
+This example demonstrates that overlapping segments are counted independently.
 
-- **Incorrect split calculation:**  
-  For a segment `[a, b]` cut at `x`, the split must be `(x - a)` on the left and `(b - x)` on the right.
-
-- **Merging overlapping segments:**  
-  Never merge segments. Each segment contributes independently, even if they fully overlap.
-
-- **Integer overflow:**  
-  Avoid integer arithmetic with large coordinates. Use floating-point values throughout.
-
-- **Wrong output format:**  
-  The answer must be printed with **exactly 5 decimal places**.
-
-- **Incorrect binary search direction:**  
-  If `left_total < right_total`, move the line **to the right**, not left.
-
-## Alternative Approaches
-
-### Approach 1: Weighted Median (Optimal)
-
-- Treat each segment midpoint as a position
-- Use the segment length as its weight
-- Sort segments by midpoint
-- Accumulate lengths until half of the total length is reached
-- That position is the balance point
-- **Time Complexity:** $O(n \log n)$
-- **Space Complexity:** $O(n)$
-- **Note:** More efficient than binary search and conceptually clean
-
-### Approach 2: Analytical Solution (Mathematical)
-
-- The balance point can be computed directly using a **weighted centroid** idea.
-- For each segment, we treat:
-  - `a` as the **length** of the segment
-  - `b` as the **midpoint** of the segment
-
-- The balance point `c` is calculated as:
-
-  c = sum(a * b) / sum(a)   (for all segments)
-
-- For a segment `[l, r]`:
-  - length `a = (r - l)`
-  - midpoint `b = (l + r) / 2`
-
-- Substitute these values into the formula:
-
-  c = sum( (r - l) * ((l + r) / 2) ) / sum(r - l)
-
-- **Time Complexity:** O(n) — single pass over all segments  
-- **Space Complexity:** O(1) — only constant extra variables used  
-- **Note:** This is the fastest and simplest approach, and it gives an exact result without binary search.
-
-
-**Recommended Approach:**  
-The **Analytical Solution (Approach 4)** is the cleanest and most efficient choice, delivering the balance point in a single pass with minimal code and maximum clarity.
