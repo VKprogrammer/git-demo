@@ -6,33 +6,33 @@ You are given an array $A$ of $n$ integers $(1-indexed)$. You need to process $Q
 
 ### Query Types:
 
-**$1$. POINT_UPDATE $i$ $val$**
+**$1$. POINT_UPDATE**
 - Update the value at index $i$ to $val$
 - Format: $1$ $i$ $val$
 - Effect: $A[i]$ = $val$
 
-**$2$. RANGE_XOR $l$ $r$ $k$**
+**$2$. RANGE_XOR**
 - XOR all elements in range $[l, r]$ with value $k$
 - Format: $2$ $l$ $r$ $k$
 - Effect: For all $i$ where $l$ ≤ $$i$ ≤ $r$ , $A[i]$ = $A[i]$ XOR $k$
 
-**$3$. POPCOUNT_SUM $l$ $r$ $x$**
+**$3$. POPCOUNT_SUM**
 - Return the sum of all elements in range $[l, r]$ that have exactly $x$ set bits in their binary representation
 - Format: $3$ $l$ $r$ $x$
 - Output: Sum of qualifying elements
 
-**$4$. WEIGHTED_POPCOUNT_SUM **$l$** **$r$** **$x$****
+**$4$. WEIGHTED_POPCOUNT_SUM**
 - Return the weighted sum where each element with exactly $x$ set bits is multiplied by its position within the range
 - Format: $4$ $l$ $r$ $x$
 - Output: $\sum $A[i]$ \cdot ($i$ - $l$ + $1$)$ for all $i$ in $[l, r]$ where $popcount(A[i])$ = $x$
 
-**$5$. TIME_QUERY $l$ $r$ $x$ $t$**
+**$5$. TIME_QUERY**
 - Answer query type $3$ $(POPCOUNTSUM)$ at version $t$ (the state of the array after the $t$-th update operation)
 - Format: $5$ $l$ $r$ $x$ $t$
 - Output: $POPCOUNT_SUM$ for the array state at version $t$
 - Note: This is a read-only operation; current state remains unchanged
 
-**$6$. ROLLBACK $t$**
+**$6$. ROLLBACK**
 - Rollback the array and all data structures to the state after the $t$-th update operation
 - Format: $6$ $t$
 - Effect: All future versions are discarded, and subsequent operations continue from version $t$
