@@ -6,7 +6,7 @@ You are given an array $A$ of $n$ integers $(1-indexed)$. You need to process $Q
 
 ### Query Types:
 
-**$1$. POINT_UPDATE $i$ $val$**
+**$1$. POINT_UPDATE  $i$  $val$**
 - Update the value at index $i$ to $val$
 - Format: $1$ $i$ $val$
 - Effect: $A[i]$ = $val$
