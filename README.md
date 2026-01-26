@@ -42,17 +42,17 @@ You are given an array $A$ of $n$ integers $(1-indexed)$. You need to process $Q
 
 Input is a JSON object with the following fields:
 
-- `n` (integer): The size of the array $(1 ≤ n ≤ 10,000)$
-- `array` (array of integers): The initial array of $n$ integers, each in range $[0, 10^9]$
-- `queries` (array of objects): Array of query objects, where each query has:
-  - `type` (integer): Query type identifier $(1-6)$
+- $n$ (integer): The size of the array $(1 ≤ n ≤ 10,000)$
+- $array$ (array of integers): The initial array of $n$ integers, each in range $[0, 10^9]$
+- $queries$ (array of objects): Array of query objects, where each query has:
+  - $type$ (integer): Query type identifier $(1-6)$
   - Additional fields based on query type:
-    - **Type $1$ (POINT_UPDATE)**: `i` (integer), `val` (integer)
-    - **Type $2$ (RANGE_XOR)**: `l` (integer), `r` (integer), `k` (integer)
-    - **Type $3$ (POPCOUNT_SUM)**: `l` (integer), `r` (integer), `x` (integer)
-    - **Type $4$ (WEIGHTED_POPCOUNT_SUM)**: `l` (integer), `r` (integer), `x` (integer)
-    - **Type $5$ (TIME_QUERY)**: `l` (integer), `r` (integer), `x` (integer), `t` (integer)
-    - **Type $6$ (ROLLBACK)**: `t` (integer)
+    - **Type $1$ (POINT_UPDATE)**: $i$ (integer), $val$ (integer)
+    - **Type $2$ (RANGE_XOR)**: $l$ (integer), $r$ (integer), $k$ (integer)
+    - **Type $3$ (POPCOUNT_SUM)**: $l$ (integer), $r$ (integer), $x$ (integer)
+    - **Type $4$ (WEIGHTED_POPCOUNT_SUM)**: $l$ (integer), $r$ (integer), $x$ (integer)
+    - **Type $5$ (TIME_QUERY)**: $l$ (integer), $r$ (integer), $x$ (integer), $t$ (integer)
+    - **Type $6$ (ROLLBACK)**: $t$ (integer)
 
 Example input:
 ```json
@@ -98,7 +98,7 @@ Example input:
 }
 ```
 
-**Note:** Array indices are $1-based$. Version numbers start from $0$ (initial state) and increment with each update operation $(types 1 and 2)$.
+**Note:** Array indices are $1-based$. Version numbers start from $0$ (initial state) and increment with each update operation (types $1$ and $2$).
 
 ## Output Format
 
