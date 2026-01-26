@@ -29,7 +29,7 @@ You are given an array $A$ of $n$ integers $(1-indexed)$. You need to process $Q
 **$5$. TIME_QUERY**
 - Answer query type $3$ at version $t$ (the state of the array after the $t$-th update operation)
 - Format: $5$ $l$ $r$ $x$ $t$
-- Output: $POPCOUNT_SUM$ for the array state at version $t$
+- Output: $POPCOUNTSUM$ for the array state at version $t$
 - Note: This is a read-only operation; current state remains unchanged
 
 **$6$. ROLLBACK**
@@ -47,12 +47,12 @@ Input is a JSON object with the following fields:
 - `queries` (array of objects): Array of query objects, where each query has:
   - `type` (integer): Query type identifier $(1-6)$
   - Additional fields based on query type:
-    - **Type $1$ (POINT_UPDATE)**: `index` (integer), `value` (integer)
-    - **Type $2$ (RANGE_XOR)**: `left` (integer), `right` (integer), `k` (integer)
-    - **Type $3$ (POPCOUNT_SUM)**: `left` (integer), `right` (integer), `x` (integer)
-    - **Type $4$ (WEIGHTED_POPCOUNT_SUM)**: `left` (integer), `right` (integer), `x` (integer)
-    - **Type $5$ (TIME_QUERY)**: `left` (integer), `right` (integer), `x` (integer), `version` (integer)
-    - **Type $6$ (ROLLBACK)**: `version` (integer)
+    - **Type $1$ (POINT_UPDATE)**: `i` (integer), `val` (integer)
+    - **Type $2$ (RANGE_XOR)**: `l` (integer), `r` (integer), `k` (integer)
+    - **Type $3$ (POPCOUNT_SUM)**: `l` (integer), `r` (integer), `x` (integer)
+    - **Type $4$ (WEIGHTED_POPCOUNT_SUM)**: `l` (integer), `r` (integer), `x` (integer)
+    - **Type $5$ (TIME_QUERY)**: `l` (integer), `r` (integer), `x` (integer), `t` (integer)
+    - **Type $6$ (ROLLBACK)**: `t` (integer)
 
 Example input:
 ```json
@@ -62,37 +62,37 @@ Example input:
   "queries": [
     {
       "type": 3,
-      "left": 1,
-      "right": 5,
+      "l": 1,
+      "r": 5,
       "x": 2
     },
     {
       "type": 1,
-      "index": 2,
-      "value": 15
+      "i": 2,
+      "val": 15
     },
     {
       "type": 2,
-      "left": 1,
-      "right": 3,
+      "l": 1,
+      "r": 3,
       "k": 4
     },
     {
       "type": 4,
-      "left": 1,
-      "right": 5,
+      "l": 1,
+      "r": 5,
       "x": 2
     },
     {
       "type": 5,
-      "left": 1,
-      "right": 5,
+      "l": 1,
+      "r": 5,
       "x": 2,
-      "version": 1
+      "t": 1
     },
     {
       "type": 6,
-      "version": 1
+      "t": 1
     }
   ]
 }
@@ -120,12 +120,12 @@ Example output:
 
 - $1 \le n, Q \le 10^5$
 - $0 \le A[i] \le 10^9$
-- $1 \le index \le n$
-- $1 \le left \le right \le n$
+- $1 \le i \le n$
+- $1 \le l \le r \le n$
 - $1 \le type \le 6$
 - $0 \le k \le 10^9$
 - $0 \le x \le 30$ (maximum set bits in $10^9$)
-- $0 \le version \le$ current version number
+- $0 \le t \le$ current version number
 - Update operations (types $1$, $2$) create new versions numbered sequentially starting from $0$
 
 
@@ -141,72 +141,72 @@ Example output:
   "queries": [
     {
       "type": 3,
-      "left": 1,
-      "right": 5,
+      "l": 1,
+      "r": 5,
       "x": 2
     },
     {
       "type": 1,
-      "index": 2,
-      "value": 15
+      "i": 2,
+      "val": 15
     },
     {
       "type": 3,
-      "left": 1,
-      "right": 5,
+      "l": 1,
+      "r": 5,
       "x": 2
     },
     {
       "type": 2,
-      "left": 1,
-      "right": 3,
+      "l": 1,
+      "r": 3,
       "k": 4
     },
     {
       "type": 3,
-      "left": 1,
-      "right": 5,
+      "l": 1,
+      "r": 5,
       "x": 2
     },
     {
       "type": 4,
-      "left": 1,
-      "right": 5,
+      "l": 1,
+      "r": 5,
       "x": 2
     },
     {
       "type": 5,
-      "left": 1,
-      "right": 5,
+      "l": 1,
+      "r": 5,
       "x": 2,
-      "version": 1
+      "t": 1
     },
     {
       "type": 6,
-      "version": 1
+      "t": 1
     },
     {
       "type": 3,
-      "left": 1,
-      "right": 5,
+      "l": 1,
+      "r": 5,
       "x": 2
     },
     {
       "type": 1,
-      "index": 1,
-      "value": 8
+      "i": 1,
+      "val": 8
     },
     {
       "type": 5,
-      "left": 1,
-      "right": 5,
+      "l": 1,
+      "r": 5,
       "x": 2,
-      "version": 2
+      "t": 2
     },
     {
       "type": 4,
-      "left": 2,
-      "right": 4,
+      "l": 2,
+      "r": 4,
       "x": 2
     }
   ]
