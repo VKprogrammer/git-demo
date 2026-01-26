@@ -2,7 +2,7 @@
 
 ## Description
 
-You are given an array $A$ of $n$ integers ($1$-indexed). You need to process $Q$ queries of the following types:
+You are given an array $A$ of $n$ integers $(1-indexed)$. You need to process $Q$ queries of the following types:
 
 ### Query Types:
 
