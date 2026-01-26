@@ -1,24 +1,42 @@
-# Problem Title
-
-Equal Length Division
+# Bitwise Time Machine
 
 ## Description
 
-<!-- WHAT & WHY: Explain the problem goal and context. Don't specify the JSON schema here. -->
-<!-- Example: "Given an array of integers, return the sum of all elements." -->
+You are given an array `A` of `n` integers (1-indexed). You need to process `Q` queries of the following types:
 
-You are given a number line and several horizontal **line segments** on this number line. Each segment is defined by its **start** and **end** point on the number line.
-Your goal is to find **minimum** position x = c at which the vertical line perfectly balances all of the segments. A vertical line is considered balanced when:
+### Query Types:
 
-- The sum of the lengths of all segment parts left of the line is equal to the sum of the lengths of all segment parts right of the line.
+**1. POINT_UPDATE i val**
+- Update the value at index `i` to `val`
+- Format: `1 i val`
+- Effect: `A[i] = val`
 
-- The equality must hold up to 5 decimal places of precision.
+**2. RANGE_XOR l r k**
+- XOR all elements in range `[l, r]` with value `k`
+- Format: `2 l r k`
+- Effect: For all `i` where `l ≤ i ≤ r`, `A[i] = A[i] XOR k`
 
-#### Important Note:
-- Whenever a vertical line cuts through a segment, it divides the segment into two parts on the left side and on the right side. Both of these contribute to the total length on the left side or on the right side, respectively. 
-- Overlapping segments are counted separately. In the case of many segments covering the same region, every segment's length in the covered region adds up independently to the total length. 
-- Two values are taken to be equal if the absolute difference is less than 10^-5, i.e., they agree up to five decimal places.
+**3. POPCOUNT_SUM l r x**
+- Return the sum of all elements in range `[l, r]` that have exactly `x` set bits in their binary representation
+- Format: `3 l r x`
+- Output: Sum of qualifying elements
 
+**4. WEIGHTED_POPCOUNT_SUM l r x**
+- Return the weighted sum where each element with exactly `x` set bits is multiplied by its position within the range
+- Format: `4 l r x`
+- Output: `Σ(A[i] * (i - l + 1))` for all `i` in `[l, r]` where `popcount(A[i]) = x`
+
+**5. TIME_QUERY l r x t**
+- Answer query type 3 (POPCOUNT_SUM) at version `t` (the state of the array after the `t`-th update operation)
+- Format: `5 l r x t`
+- Output: POPCOUNT_SUM for the array state at version `t`
+- Note: This is a read-only operation; current state remains unchanged
+
+**6. ROLLBACK t**
+- Rollback the array and all data structures to the state after the `t`-th update operation
+- Format: `6 t`
+- Effect: All future versions are discarded, and subsequent operations continue from version `t`
+- Note: Only update operations (types 1 and 2) create new versions
 
 ## Input Format
 
@@ -26,32 +44,14 @@ Your goal is to find **minimum** position x = c at which the vertical line perfe
 
 Input is a JSON object with the following fields:
 
-- `t` (integer): Number of test cases
-- `test_cases` (array of objects): Array containing test case data
-- `n` (integer): Number of horizontal segments in this test case
-- `segments` (array of arrays): Each element is a 2-element array [x1, x2] where x1 is the start coordinate and x2 is the end coordinate of a segment
+- `field1` (type): Description
+- `field2` (type): Description
 
 Example input:
 ```json
 {
-  "t": 2,
-  "test_cases": [
-    {
-      "n": 3,
-      "segments": [
-        [1, 5],
-        [2, 8],
-        [3, 7]
-      ]
-    },
-    {
-      "n": 2,
-      "segments": [
-        [0, 10],
-        [0, 10]
-      ]
-    }
-  ]
+  "field1": value1,
+  "field2": value2
 }
 ```
 
@@ -59,24 +59,21 @@ Example input:
 
 <!-- HOW: Technical schema only. Describe what type/structure is returned, not why. -->
 
-Output is a JSON value (type: array of numbers):
+Output is a JSON value (type: [number/string/array/object]):
 
-An array of floating-point numbers, one for each test case, representing the x-coordinate of the balance point rounded to exactly 5 decimal places.
+[Describe what the output represents]
 
 Example output:
 ```json
-[4.50000, 5.00000]
+result_value
 ```
 
 ## Constraints
 
-- $1 \leq t \leq 100$ (number of test cases)
-- $1 \leq n \leq 10^4$ (number of segments per test case)
-- $0 \leq x_1 < x_2 \leq 10^9$ (segment coordinates)
-- Sum of $n$ across all test cases $\leq 10^5$
-- Output must be rounded to exactly 5 decimal places
-- Absolute difference between left and right totals must be $\leq 10^{-5}$
-- Time limit: 1000ms
+- Constraint 1
+- Constraint 2
+- $1 \leq n \leq 10^5$
+- Time limit: 2000ms
 - Memory limit: 256MB
 
 ## Examples
@@ -86,96 +83,31 @@ Example output:
 **Input:**
 ```json
 {
-  "t": 2,
-  "test_cases": [
-    {
-      "n": 3,
-      "segments": [
-        [1, 5],
-        [2, 8],
-        [3, 7]
-      ]
-    },
-    {
-      "n": 2,
-      "segments": [
-        [0, 10],
-        [5, 15]
-      ]
-    }
-  ]
+  "field1": "example",
+  "field2": [1, 2, 3]
 }
 ```
 
 **Output:**
 ```json
-[4.50000, 7.50000]
+6
 ```
 
 **Explanation:** 
-
-**Test Case 1:** Balance point is at x = 4.50000
-- Segments: [1, 5], [2, 8], [3, 7]
-- Left side total:
-  - Segment [1, 5]: length from 1 to 4.5 = 3.5
-  - Segment [2, 8]: length from 2 to 4.5 = 2.5
-  - Segment [3, 7]: length from 3 to 4.5 = 1.5
-  - Total = 7.5
-- Right side total:
-  - Segment [1, 5]: length from 4.5 to 5 = 0.5
-  - Segment [2, 8]: length from 4.5 to 8 = 3.5
-  - Segment [3, 7]: length from 4.5 to 7 = 2.5
-  - Total = 7.5
-- Left = Right ✓
-
-**Test Case 2:** Balance point is at x = 7.50000
-- Segments: [0, 10], [5, 15]
-- Left side total:
-  - Segment [0, 10]: length from 0 to 7.5 = 7.5
-  - Segment [5, 15]: length from 5 to 7.5 = 2.5
-  - Total = 10.0
-- Right side total:
-  - Segment [0, 10]: length from 7.5 to 10 = 2.5
-  - Segment [5, 15]: length from 7.5 to 15 = 7.5
-  - Total = 10.0
-- Left = Right ✓
+[Explain why this is the correct output]
 
 ### Example 2
 
 **Input:**
 ```json
 {
-  "t": 1,
-  "test_cases": [
-    {
-      "n": 2,
-      "segments": [
-        [0, 10],
-        [0, 10]
-      ]
-    }
-  ]
+  "field1": "test",
+  "field2": [4, 5]
 }
 ```
 
 **Output:**
 ```json
-[5.00000]
+9
 ```
-
-**Explanation:**
-
-**Test Case 1:** Balance point is at x = 5.00000
-- Segments: [0, 10], [0, 10] (two identical overlapping segments)
-- Left side total:
-  - Segment 1: length from 0 to 5 = 5.0
-  - Segment 2: length from 0 to 5 = 5.0
-  - Total = 10.0 (both segments counted separately!)
-- Right side total:
-  - Segment 1: length from 5 to 10 = 5.0
-  - Segment 2: length from 5 to 10 = 5.0
-  - Total = 10.0
-- Left = Right ✓
-
-This example demonstrates that overlapping segments are counted independently.
 
