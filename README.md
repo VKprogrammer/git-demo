@@ -7,7 +7,7 @@ A number is called a `prime power sum` if it can be expressed as the sum of two 
 Formally, a number $x$ is a prime power sum if :
              $(x=a^p+b^q)$
 
-$a$ and $b$ are prime numbers $(a,b \in\ {2,3,5,7,11,13,....})$
+$a$ and $b$ are prime numbers $(a,b \in\ {{2,3,5,7,11,13,....}})$
 $p$ and $q$ are integers greater than $1$ $(p,q>1)$
 
 For example: 
