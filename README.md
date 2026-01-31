@@ -154,4 +154,4 @@ for(int i = 2; i * i <= 2236; i++) {
 
 - **Time Complexity:** $O(M \log\log M + P \log M + P^2 + \log N)$  — Sieve is $O(n log log n)$, slightly faster than checking each number individually.
 - **Space Complexity:** $O(M+P+N)$ — Additional $O(2237)$ for the sieve array.
-- **Verdict:**This is an implementation improvement, not a fundamentally different approach.
+- **Verdict:** This is an implementation improvement, not a fundamentally different approach.
