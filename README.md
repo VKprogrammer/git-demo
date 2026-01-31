@@ -3,7 +3,7 @@
 ## Key Insights
 
 1. **Pre-computation is Key:** Instead of checking each number in the range $[l, r]$ individually to see if it can be expressed as a sum of two prime powers, we can pre-generate all valid prime power sums up to the maximum constraint $(5 \times 10^6)$ and then use binary search to count how many fall within any given range.
-2. **Limited Number of Prime Powers:** Since we need prime powers $p^k$ where $k \ge 2$ and the result must be $ \le 5 \times 10⁶$, there are only a limited number of valid prime powers $(\approx 433)$. For example, $2^2 = 4, 2^3 = 8, \dots, 2^{22} = 4{,}194{,}304$, and larger primes quickly exceed the limit with even small exponents $(e.g., 2243^2 > 5 \times 10^6)$.
+2. **Limited Number of Prime Powers:** Since we need prime powers $p^k$ where $k \ge 2$ and the result must be $\le 5\times 10^6$, there are only a limited number of valid prime powers $(\approx 433)$. For example, $2^2 = 4, 2^3 = 8, \dots, 2^{22} = 4{,}194{,}304$, and larger primes quickly exceed the limit with even small exponents $(e.g., 2243^2 > 5 \times 10^6)$.
 3. **Efficient Prime Generation:** We only need to generate primes up to $\sqrt{5 \times 10^6} \approx 2236$, because any prime power $p^k \text{where}  \ge 2$
  exceeding $5 \times 10^6$ requires $p > \sqrt{5 \times 10^6}$.
 4. **Set for Deduplication:** Using a set to store all possible sums automatically handles duplicates. For instance, $2^2 + 2^3 = 2^3 + 2^2 = 12$, but it only gets counted once in our set.
