@@ -123,8 +123,8 @@ Prime power sum in range $[1,30]$:
 - $17=2^3+3^2=8+9$, has prime power sum
 - $18=3^2+3^2=9+9$, has prime power sum
 - $20=2^2+2^4=4+16$, has prime power sum
+- $24=2^3+2^4=8+16$, has prime power sum
 - $25=2^4+3^2=16+9$, has prime power sum
-- $28=2^2+5^2=4+25$, has prime power sum
 - $29=2^2+5^2=4+25$, has prime power sum
 
 
