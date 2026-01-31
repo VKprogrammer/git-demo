@@ -118,7 +118,7 @@ which is about $3.2$ million operations.
 1. **Minimum Range $[1, 1]$:** The number $1$ cannot be expressed as a sum of two prime powers (minimum is $2^2 + 2^2 = 8$), so the answer is 0.
 2. **Small Range with No Valid Numbers:** For example, $[2, 7]$ contains no prime power sums since the smallest is $8$. The binary search correctly returns 0.
 3. **Maximum Constraints $[1, 5000000]$:** The pre-computation handles the entire range efficiently. All $~50k-100k$ valid numbers are counted.
-4. **Range Containing Only One Valid Number:** For example, $[8, 8]$ should return $1$. The binary search handles this correctly since $\mathrm{upper\_bound}(8)-\mathrm{lower\_bound}(8)=1$
+4. **Range Containing Only One Valid Number:** For example, $[8, 8]$ should return $1$. The binary search handles this correctly since $\text{upper\_bound}(8)-\text{lower\_bound}(8)=1$.
 5. **Overflow Prevention:** When computing $\text{power} \cdot\ \text{prime}$, we check if $(\text{power} > (\text{MAX} / \text{prime}))$ to prevent overflow before multiplication.
 
 ## Common Pitfalls
