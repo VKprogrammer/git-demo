@@ -11,7 +11,7 @@
 ## Algorithm
 
 
-1. Step 1: Generate All Prime Numbers up to \(\sqrt{\text{MAX}}\)
+1. Step 1: Generate All Prime Numbers up to $(\sqrt{\text{MAX}})$
 We generate all prime numbers up to $\sqrt{5 \times 10^6} \approx 2236$ using trial division:
 
 ``` cpp
