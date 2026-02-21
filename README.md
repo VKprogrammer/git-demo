@@ -103,5 +103,5 @@ We pick 2 non-adjacent coins from two **distinct** bit groups:
 9
 ```
 
-From Group $2$, we pick any coin $c \in \{4,5,6,7\}$
+From Group $2$, we pick any coin $$c \in \{4,5,6,7\}$$
 
