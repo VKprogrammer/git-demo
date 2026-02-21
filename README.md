@@ -69,7 +69,7 @@ Example output:
 ```
 
 **Explanation:** 
-For N=7, the bit groups are: $\text{Group} 0={1}$
+For N=7, the bit groups are: $\text{Group}_0={1}$
 
 ### Example 2
 
