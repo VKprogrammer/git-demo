@@ -69,7 +69,24 @@ Example output:
 ```
 
 **Explanation:** 
-For N=7, the bit groups are: Group 0 = {1}, Group 1 = {2, 3}, Group 2 = {4, 5, 6, 7}.
+For N=7, the bit groups are: Group 0 = {1}, Group 1= {2,3}, Group 2 = {4,5,6,7}.
+
+We pick 2 non-adjacent coins from two **distinct** bit groups:
+
+| Selection | MSBs | Non-adjacent? | Valid? |
+|-----------|------|---------------|--------|
+| (1, 3) | [0, 1] | Yes (gap=2) | ✓ |
+| (1, 4) | [0, 2] | Yes (gap=3) | ✓ |
+| (1, 5) | [0, 2] | Yes | ✓ |
+| (1, 6) | [0, 2] | Yes | ✓ |
+| (1, 7) | [0, 2] | Yes | ✓ |
+| (2, 4) | [1, 2] | Yes (gap=2) | ✓ |
+| (2, 5) | [1, 2] | Yes | ✓ |
+| (2, 6) | [1, 2] | Yes | ✓ |
+| (2, 7) | [1, 2] | Yes | ✓ |
+| (3, 5) | [1, 2] | Yes (gap=2) | ✓ |
+| (3, 6) | [1, 2] | Yes | ✓ |
+| (3, 7) | [1, 2] | Yes | ✓ |
 
 ### Example 2
 
