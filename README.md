@@ -69,9 +69,9 @@ Example output:
 ```
 
 **Explanation:** 
-For N=7, the bit groups are: Group 0 = {1}, Group 1= {2,3}, Group 2 = {4,5,6,7}.
+For $N=7$, the bit groups are: Group 0 = {1}, Group 1= {2,3}, Group 2 = {4,5,6,7}.
 
-We pick 2 non-adjacent coins from two **distinct** bit groups:
+We pick $2$ non-adjacent coins from two **distinct** bit groups:
 
 | Selection | MSBs | Non-adjacent? | Valid? |
 |-----------|------|---------------|--------|
@@ -88,21 +88,58 @@ We pick 2 non-adjacent coins from two **distinct** bit groups:
 | (3, 6) | [1, 2] | Yes | ✓ |
 | (3, 7) | [1, 2] | Yes | ✓ |
 
+Rejected: (1,2) — adjacent; (2,3) — adjacent; (4,6) — same MSB group;
+
+Answer = **12**.
+
 ### Example 2
 
 **Input:**
 ```json
 {
-  "field1": "test",
-  "field2": [4, 5]
+  "n": 7,
+  "k": 3
 }
 ```
 
 **Output:**
 ```json
-9
+3
 ```
 
-From Group $2$, we pick any coin $c\in\{4,5,6,7\}$
+**Explanation**:
 
+For $N=7$, the bit groups are: Group 0 = {1}, Group 1= {2,3}, Group 2 = {4,5,6,7}.
+
+$K=3$ requires one coin from each group of Groups $0$, $1$, and $2$.
+Group $0$ has only coin $1$ , so coin $1$ is always selected.
+From Group $1$, coin $2$ is adjacent to coin $1$ — so we mush pick coin **3**.
+From Group $2$, we pick any coin $c\in\{4,5,6,7\}$ with $c \ge 5$ (non-adjacent to $3$):
+
+- (1, 3, 5) ✓
+- (1, 3, 6) ✓
+- (1, 3, 7) ✓
+
+Answer = **3**.
+
+### Example 3
+
+**Input:**
+```json
+{
+  "n": 15,
+  "k": 4
+}
+```
+
+**Output:**
+```json
+23
+```
+
+**Explanation:**
+
+N=15 has exactly 4 bit groups: {1}, {2,3}, {4..7}, {8..15}.
+K=4 forces us to pick one coin from each group, all non-adjacent.
+There are **23** such selections in total.
 
